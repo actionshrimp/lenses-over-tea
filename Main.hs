@@ -8,11 +8,11 @@ type Lens' s a = Functor f => (a -> f a) -> s -> f s
 
 -- _1 :: Functor f => (a -> f b) -> (a, x) -> f (b, x)
 _1 :: Lens (a, x) (b, x) a b
-_1 f (a, x) = (\b -> (b, x)) <$> f a
+_1 f (a, x) = (flip (,) x) <$> f a
 
 -- _2 :: Functor f => (a -> f b) -> (x, a) -> f (x, b)
 _2 :: Lens (x, a) (x, b) a b
-_2 = _
+_2 f (x, a) = ((,) x) <$> f a
 
 -- Make a lens out of a getter and a setter.
 lens :: (s -> a) -> (s -> b -> t) -> Lens s t a b
